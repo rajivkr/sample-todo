@@ -66,7 +66,6 @@ class TodoListItem extends Component {
           <div className='item-title'>
             {defaultTodo && (
               <div className='item-add-icon'>
-                {' '}
                 <FiPlusCircle />
               </div>
             )}
@@ -94,6 +93,11 @@ class TodoListItem extends Component {
 class TodoContainer extends Component {
   state = {
     todos: [
+      {
+        id: 23,
+        title: 'Go Swimming',
+        status: 2,
+      },
       {
         id: 23,
         title: 'Get News paper',
