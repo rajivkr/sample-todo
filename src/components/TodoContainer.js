@@ -93,12 +93,12 @@ class TodoContainer extends Component {
     todos: [
       {
         id: 23,
-        title: 'Writing code',
+        title: 'Get News paper',
         status: 2,
       },
       {
         id: 25,
-        title: 'Finished CSS',
+        title: 'Buy Milk',
         status: 3,
       },
     ],
