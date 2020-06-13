@@ -96,7 +96,7 @@ class TodoContainer extends Component {
       {
         id: 23,
         title: 'Go Swimming',
-        status: 2,
+        status: 1,
       },
       {
         id: 23,
