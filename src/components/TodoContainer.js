@@ -15,9 +15,9 @@ class TodoListItem extends Component {
     });
   };
 
-  onTodoEdit = () => {
+  onTodoEdit = title => {
     this.setState({
-      todoTitle: '',
+      todoTitle: title,
       todoEdit: true,
     });
   };
@@ -53,6 +53,7 @@ class TodoListItem extends Component {
               <input
                 type='text'
                 name='todo-input'
+                value={this.state.todoTitle}
                 placeholder='Enter Todo'
                 onChange={e => this.onInputChange(e)}
               />
@@ -71,7 +72,10 @@ class TodoListItem extends Component {
         )}
         {!defaultTodo && (
           <div className='item-functions'>
-            <div className='item-edit' onClick={() => this.onTodoEdit()}>
+            <div
+              className='item-edit'
+              onClick={() => this.onTodoEdit(todoObj.title)}
+            >
               <GrEdit />
             </div>
             <div className='item-delete' onClick={() => deleteTodo(todoObj.id)}>
@@ -200,6 +204,7 @@ class TodoContainer extends Component {
                 todoObj={todoObj}
                 editTodo={this.editTodo}
                 completedTodo={true}
+                deleteTodo={this.deleteTodo}
               />
             );
           })}
