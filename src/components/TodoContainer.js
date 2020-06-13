@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { GrEdit } from 'react-icons/gr';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { FiPlusCircle } from 'react-icons/fi';
+import Draggable from '../dragNdrop/Draggable';
+import Droppable from '../dragNdrop/Droppable';
 
 class TodoListItem extends Component {
   state = {
@@ -53,6 +55,7 @@ class TodoListItem extends Component {
               <input
                 type='text'
                 name='todo-input'
+                autoFocus
                 value={this.state.todoTitle}
                 placeholder='Enter Todo'
                 onChange={e => this.onInputChange(e)}
@@ -103,6 +106,7 @@ class TodoContainer extends Component {
       },
     ],
     todoId: 30,
+    elemDragged: undefined,
   };
 
   addTodo = () => {
@@ -117,6 +121,21 @@ class TodoContainer extends Component {
         todos: listOfTodos,
         todoId: ++prevState.todoId,
       };
+    });
+  };
+
+  onDrop = (draggedTodoObj, status) => {
+    if (draggedTodoObj.status === status) {
+      return;
+    }
+    const listOfTodos = [...this.state.todos];
+    listOfTodos.forEach(todoObj => {
+      if (todoObj.id === draggedTodoObj.id) {
+        todoObj.status = status;
+      }
+    });
+    this.setState({
+      todos: listOfTodos,
     });
   };
 
@@ -135,6 +154,18 @@ class TodoContainer extends Component {
   deleteTodo = todoId => {
     let listOfTodos = [...this.state.todos];
     listOfTodos = listOfTodos.filter(todoObj => todoObj.id !== todoId);
+    this.setState({
+      todos: listOfTodos,
+    });
+  };
+
+  setDraggedElem = draggedObj => {
+    const listOfTodos = [...this.state.todos];
+    listOfTodos.forEach(todoObj => {
+      if (todoObj.id === draggedObj.id) {
+        todoObj.status = draggedObj.status;
+      }
+    });
     this.setState({
       todos: listOfTodos,
     });
@@ -163,51 +194,77 @@ class TodoContainer extends Component {
     return (
       <div className='todos-wrapper'>
         <div className='todo-container'>
-          {defaultContainer && (
-            <TodoListItem
-              defaultTodo
-              todoObj={defaultTodoObj}
-              addTodo={this.addTodo}
-              editTodo={this.editTodo}
-            />
-          )}
-          {todoArray.map(todoObj => {
-            return (
+          <Droppable id='dr1' onTodoDrop={this.onDrop} status={1}>
+            {defaultContainer && (
               <TodoListItem
-                key={todoObj.id}
-                todoObj={todoObj}
+                defaultTodo
+                todoObj={defaultTodoObj}
                 addTodo={this.addTodo}
                 editTodo={this.editTodo}
-                deleteTodo={this.deleteTodo}
               />
-            );
-          })}
+            )}
+
+            {todoArray.map(todoObj => {
+              return (
+                <Draggable
+                  todoItem={todoObj}
+                  setDragElement={this.setDraggedElem}
+                  key={todoObj.id}
+                >
+                  <TodoListItem
+                    key={todoObj.id}
+                    todoObj={todoObj}
+                    addTodo={this.addTodo}
+                    editTodo={this.editTodo}
+                    deleteTodo={this.deleteTodo}
+                  />
+                </Draggable>
+              );
+            })}
+          </Droppable>
         </div>
 
         <div className='doing-container'>
-          {doingArray.map(todoObj => {
-            return (
-              <TodoListItem
-                key={todoObj.id}
-                todoObj={todoObj}
-                editTodo={this.editTodo}
-                deleteTodo={this.deleteTodo}
-              />
-            );
-          })}
+          <Droppable id='dr2' onTodoDrop={this.onDrop} status={2}>
+            {doingArray.map(todoObj => {
+              return (
+                <Draggable
+                  todoItem={todoObj}
+                  key={todoObj.id}
+                  setDragElement={this.setDraggedElem}
+                >
+                  <TodoListItem
+                    key={todoObj.id}
+                    todoObj={todoObj}
+                    editTodo={this.editTodo}
+                    deleteTodo={this.deleteTodo}
+                  />
+                </Draggable>
+              );
+            })}
+          </Droppable>
         </div>
+
         <div className='done-container'>
-          {doneArray.map(todoObj => {
-            return (
-              <TodoListItem
-                key={todoObj.id}
-                todoObj={todoObj}
-                editTodo={this.editTodo}
-                completedTodo={true}
-                deleteTodo={this.deleteTodo}
-              />
-            );
-          })}
+          <Droppable id='dr3' onTodoDrop={this.onDrop} status={3}>
+            {doneArray.map(todoObj => {
+              return (
+                <Draggable
+                  todoItem={todoObj}
+                  key={todoObj.id}
+                  setDragElement={this.setDraggedElem}
+                >
+                  <TodoListItem
+                    key={todoObj.id}
+                    todoObj={todoObj}
+                    editTodo={this.editTodo}
+                    completedTodo={true}
+                    deleteTodo={this.deleteTodo}
+                  />
+                </Draggable>
+              );
+            })}
+          </Droppable>
         </div>
       </div>
     );

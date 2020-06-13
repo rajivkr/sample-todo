@@ -24,6 +24,10 @@
   padding-bottom: 30px;
 }
 
+.drop-wrapper {
+  min-height: 100vh;
+}
+
 .todos-wrapper {
   display: flex;
 }
