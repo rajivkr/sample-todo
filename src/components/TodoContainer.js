@@ -94,7 +94,7 @@ class TodoContainer extends Component {
   state = {
     todos: [
       {
-        id: 23,
+        id: 22,
         title: 'Go Swimming',
         status: 1,
       },
