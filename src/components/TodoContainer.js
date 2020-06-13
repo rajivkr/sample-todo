@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-const DefaultTodoItem = (props) => {
+const DefaultTodoItem = props => {
   return (
-    <div className="default-todo" onClick={() => props.clickHander()}>
+    <div className='default-todo' onClick={() => props.clickHander()}>
       Add a new task
     </div>
   );
@@ -13,7 +13,7 @@ class TodoListItem extends Component {
     todoTitle: '',
   };
 
-  onInputChange = (event) => {
+  onInputChange = event => {
     this.setState({
       todoTitle: event.target.value,
     });
@@ -27,21 +27,21 @@ class TodoListItem extends Component {
   render() {
     const { todoObj } = this.props;
     return (
-      <div className="item-container">
+      <div className='item-container'>
         {!todoObj.title ? (
-          <form onSubmit={(e) => this.onInputSubmit(e, this.state.todoTitle)}>
+          <form onSubmit={e => this.onInputSubmit(e, this.state.todoTitle)}>
             <input
-              type="text"
-              name="todo-input"
-              className="item-title"
-              onChange={(e) => this.onInputChange(e)}
+              type='text'
+              name='todo-input'
+              className='item-title'
+              onChange={e => this.onInputChange(e)}
             />
           </form>
         ) : (
-          <div className="item-title">{todoObj.title}</div>
+          <div className='item-title'>{todoObj.title}</div>
         )}
-        <div className="item-edit">E</div>
-        <div className="item-delete">D</div>
+        <div className='item-edit'>E</div>
+        <div className='item-delete'>D</div>
       </div>
     );
   }
@@ -64,7 +64,7 @@ class TodoContainer extends Component {
     todoId: 30,
   };
 
-  addTodo = (todoTitle) => {
+  addTodo = todoTitle => {
     const listOfTodos = [...this.state.todos];
     listOfTodos.push({
       title: todoTitle ? todoTitle : undefined,
@@ -72,7 +72,7 @@ class TodoContainer extends Component {
       id: this.state.todoId,
     });
 
-    this.setState((prevState) => {
+    this.setState(prevState => {
       return {
         todos: listOfTodos,
         todoId: ++prevState.todoId,
@@ -82,7 +82,7 @@ class TodoContainer extends Component {
 
   editTodo = (event, todoId) => {
     const listOfTodos = [...this.state.todos];
-    listOfTodos.forEach((todoObj) => {
+    listOfTodos.forEach(todoObj => {
       if (todoObj.id === todoId) {
         todoObj.title = event.target.value;
       }
@@ -99,7 +99,7 @@ class TodoContainer extends Component {
       doingArray = [],
       doneArray = [];
 
-    this.state.todos.forEach((todoObj) => {
+    this.state.todos.forEach(todoObj => {
       if (todoObj.status === 1) {
         todoArray.push(todoObj);
       } else if (todoObj.status === 2) {
@@ -110,10 +110,10 @@ class TodoContainer extends Component {
     });
 
     return (
-      <div className="todos-wrapper">
-        <div className="todo-container">
+      <div className='todos-wrapper'>
+        <div className='todo-container'>
           {defaultContainer && <DefaultTodoItem clickHander={this.addTodo} />}
-          {todoArray.map((todoObj) => {
+          {todoArray.map(todoObj => {
             return (
               <TodoListItem
                 key={todoObj.id}
@@ -123,13 +123,13 @@ class TodoContainer extends Component {
             );
           })}
         </div>
-        <div className="doing-container">
-          {doingArray.map((todoObj) => {
+        <div className='doing-container'>
+          {doingArray.map(todoObj => {
             return <TodoListItem key={todoObj.id} todoObj={todoObj} />;
           })}
         </div>
-        <div className="done-container">
-          {doneArray.map((todoObj) => {
+        <div className='done-container'>
+          {doneArray.map(todoObj => {
             return <TodoListItem key={todoObj.id} todoObj={todoObj} />;
           })}
         </div>
